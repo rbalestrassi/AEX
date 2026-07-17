@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "AEX Portfolio (Python HTTP Server)",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-c", "import http.server,socketserver\nclass H(http.server.SimpleHTTPRequestHandler):\n def __init__(self,*a,**k):super().__init__(*a,directory='/Users/Baletrassi/Documents/AEX-Portfolio',**k)\n def log_message(self,*a):pass\nwith socketserver.TCPServer(('',3000),H) as s:\n print('Serving at http://localhost:3000')\n s.serve_forever()"],
+      "port": 3000
+    }
+  ]
+}
