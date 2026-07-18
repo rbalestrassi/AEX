@@ -2,6 +2,7 @@
 .DS_Store
 Thumbs.db
 # force rebuild (nginx switch)
+# force rebuild 2 (nginx -c fix)
 
 # Arquivos de desenvolvimento local
 /aex-portfolio.html
