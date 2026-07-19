@@ -2170,7 +2170,7 @@ function observeScrollReveals(scope=document){
 }
 
 function initPremiumMotion(){
-  document.querySelectorAll('.filters-bar,.catalog').forEach(el=>el.classList.add('reveal-on-scroll'));
+  document.querySelectorAll('.filters-bar').forEach(el=>el.classList.add('reveal-on-scroll'));
   observeScrollReveals(document);
   initHeroCounters();
 }
