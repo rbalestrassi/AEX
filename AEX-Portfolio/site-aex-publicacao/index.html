@@ -1175,6 +1175,50 @@ const PWD_KEY = 'aex_pwd';
 const PROD_KEY = 'aex_products';
 const HERO_KEY = 'aex_hero_config';
 const FOOTER_KEY = 'aexFooterSettings';
+
+// ── API de persistência no servidor ──────────────────────────────────────────
+const AEX_API      = 'api/data.php';
+const AEX_API_TK   = 'aex-admin-tk-2024';
+
+async function _apiFetch(type){
+  try{
+    const r = await fetch(AEX_API+'?type='+type);
+    if(!r.ok) return null;
+    const txt = await r.text();
+    return (txt && txt !== 'null') ? JSON.parse(txt) : null;
+  }catch(e){ console.warn('[AEX] load failed:',type,e); return null; }
+}
+
+async function _apiSave(type, data){
+  try{
+    await fetch(AEX_API+'?type='+type, {
+      method:'POST',
+      headers:{'Content-Type':'application/json','X-AEX-Token':AEX_API_TK},
+      body: JSON.stringify(data)
+    });
+  }catch(e){ console.warn('[AEX] save failed:',type,e); }
+}
+
+async function _apiDelete(type){
+  try{
+    await fetch(AEX_API+'?type='+type, {
+      method:'DELETE',
+      headers:{'X-AEX-Token':AEX_API_TK}
+    });
+  }catch(e){ console.warn('[AEX] delete failed:',type,e); }
+}
+
+async function syncFromServer(){
+  const [hero, footer, prods] = await Promise.all([
+    _apiFetch('hero'),
+    _apiFetch('footer'),
+    _apiFetch('products')
+  ]);
+  if(hero)   localStorage.setItem(HERO_KEY,   JSON.stringify(hero));
+  if(footer) localStorage.setItem(FOOTER_KEY, JSON.stringify(footer));
+  if(prods)  localStorage.setItem(PROD_KEY,   JSON.stringify(prods));
+}
+// ─────────────────────────────────────────────────────────────────────────────
 const HERO_ASSET_KEYS = {
   main:'hero_main_image',
   wire:'hero_wire_image',
@@ -1268,7 +1312,7 @@ function heroStorageConfig(){
   });
   return cfg;
 }
-function saveHeroConfig(){ localStorage.setItem(HERO_KEY,JSON.stringify(heroStorageConfig())); }
+function saveHeroConfig(){ const cfg=heroStorageConfig(); localStorage.setItem(HERO_KEY,JSON.stringify(cfg)); _apiSave('hero',cfg); }
 function setHeroValue(id,val){ const el=document.getElementById(id); if(el)el.value=val||''; }
 function fillHeroForm(){
   setHeroValue('h-eyebrow',heroConfig.eyebrow);
@@ -1386,6 +1430,7 @@ function saveHeroFromAdmin(){
 function resetHeroConfig(){
   if(!confirm('Restaurar o hero para o padrão original?'))return;
   localStorage.removeItem(HERO_KEY);
+  _apiDelete('hero');
   Promise.all(Object.values(HERO_ASSET_KEYS).map(k=>idbDel(k))).catch(()=>showToast('Erro ao remover mídia (IDB)',true)).finally(()=>{
     heroConfig=getHeroConfig();
     renderHero();
@@ -1420,12 +1465,14 @@ function saveFooterFromAdmin(){
     footerPhraseSecondary:document.getElementById('footer-secondary-input').value.trim()||DEFAULT_FOOTER_CONFIG.footerPhraseSecondary
   };
   localStorage.setItem(FOOTER_KEY,JSON.stringify(cfg));
+  _apiSave('footer',cfg);
   renderFooter();
   fillFooterForm();
   showToast('Rodapé salvo!');
 }
 function resetFooterConfig(){
   localStorage.removeItem(FOOTER_KEY);
+  _apiDelete('footer');
   renderFooter();
   fillFooterForm();
   showToast('Rodapé restaurado!');
@@ -1473,6 +1520,7 @@ function saveProducts(p){
   invalidateVehicleTermsCache();
   const slim=p.map(pr=>{const c={...pr};delete c.images;delete c.image;return c;});
   try{localStorage.setItem(PROD_KEY,JSON.stringify(slim));}catch(e){showToast('Erro ao salvar: armazenamento cheio',true);}
+  _apiSave('products',slim);
   const entries=[];
   p.forEach(pr=>{
     const imgs=pr.images||[];
@@ -2270,12 +2318,17 @@ document.addEventListener('keydown',e=>{
 });
 forceInitialHeroTop();
 initHeaderCompactOnScroll();
-renderFooter();
-renderHero();
-renderGrid();
-loadImages().catch(e=>console.warn('loadImages failed',e));
-loadHeroAssets().then(initPremiumMotion).catch(e=>console.error('Erro ao inicializar animações',e));
-initHeroLiquidEffect();
+// Sincroniza com servidor antes de renderizar (garante dados atualizados em todos os browsers)
+syncFromServer().finally(()=>{
+  heroConfig=getHeroConfig();
+  products=getProducts();
+  renderFooter();
+  renderHero();
+  renderGrid();
+  loadImages().catch(e=>console.warn('loadImages failed',e));
+  loadHeroAssets().then(initPremiumMotion).catch(e=>console.error('Erro ao inicializar animações',e));
+  initHeroLiquidEffect();
+});
 
 // Inicializa links WhatsApp estáticos (header + hero + botão flutuante)
 (function(){
