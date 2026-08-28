@@ -844,7 +844,7 @@ body.header-compact .logo-area img { height:56px !important; }
     <div class="hero-metrics" aria-label="Destaques do catálogo">
       <div class="hero-metric">
         <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
-        <div><span class="metric-number" id="totalCount">59</span><span class="metric-label">Modelos disponíveis</span></div>
+        <div><span class="metric-number" id="totalCount">+60</span><span class="metric-label">modelos</span></div>
       </div>
       <div class="hero-metric">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-2.8 7.8-7 10-4.2-2.2-7-5.5-7-10V6l7-3z"/><path d="M9 12l2 2 4-5"/></svg>
@@ -1196,7 +1196,7 @@ const DEFAULT_HERO_CONFIG = {
   videoSrc:'assets/hero-aex.mp4',
   effect:'colorHover',
   cards:[
-    {number:'59',label:'Modelos disponíveis'},
+    {number:'+60',label:'modelos'},
     {number:'120',label:'Dias de garantia'},
     {number:'',label:'Óleo\nincluso'}
   ]
@@ -1260,7 +1260,7 @@ function heroTextHtml(str){
 }
 function escHtml(s){ const v=String(s??''); if(!v)return v; return v.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 function safeHref(h){ const s=String(h??'').trim(); if(s.includes('..')) return '#'; return /^(https?:|mailto:|#|\/[^\/])/i.test(s)?s:'#'; }
-function syncTotalCount(){ const el=document.getElementById('totalCount'); if(el) el.textContent=products.length; }
+function syncTotalCount(){ const el=document.getElementById('totalCount'); if(el) el.textContent='+'+products.length; }
 function heroStorageConfig(){
   const cfg=mergeHeroConfig(heroConfig);
   ['mainImage','wireImage','colorImage','videoSrc'].forEach(k=>{
