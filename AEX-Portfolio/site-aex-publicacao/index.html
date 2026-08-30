@@ -872,6 +872,7 @@ body.header-compact .logo-area img { height:56px !important; }
     <button class="f-btn" onclick="setFilter('pesada',this)">Pesada</button>
     <button class="f-btn" onclick="setFilter('agricola',this)">Agrícola</button>
     <button class="f-btn" onclick="setFilter('rodoviario',this)">Rodoviário</button>
+    <button class="f-btn" onclick="setFilter('aerea',this)">Aérea</button>
     <span class="f-count" id="fCount">60 produtos</span>
   </div>
 </div>
@@ -981,6 +982,7 @@ body.header-compact .logo-area img { height:56px !important; }
                 <option value="pesada">Pesada</option>
                 <option value="agricola">Agrícola</option>
                 <option value="rodoviario">Rodoviário</option>
+                <option value="aerea">Aérea</option>
               </select>
             </div>
           </div>
@@ -1166,7 +1168,7 @@ const REC_DEFAULT = {
   ]
 };
 
-const LINE_LABELS = {leve:'Linha Leve',pesada:'Linha Pesada',agricola:'Linha Agrícola',rodoviario:'Linha Rodoviário'};
+const LINE_LABELS = {leve:'Linha Leve',pesada:'Linha Pesada',agricola:'Linha Agrícola',rodoviario:'Linha Rodoviário',aerea:'Linha Aérea'};
 
 const WA_NUMBER = '5563992529912'; // (63) 99252-9912
 function waLink(msg){ return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`; }
@@ -1557,7 +1559,7 @@ function buildDefaults(){
 {"images": ["assets/produtos/AEX-6609-01.png", "assets/produtos/AEX-6609-02.png", "assets/produtos/AEX-6609-03.png", "assets/produtos/AEX-6609-04.png", "assets/produtos/AEX-6609-05.png", "assets/produtos/AEX-6609-06.png"], "image": "assets/produtos/AEX-6609-01.png", "id": "p79", "code": "AEX-6609", "name": "Zexel Pajero Dakar/ Mitsubishi L200 Triton Diesel 2006>", "line": "leve", "vehicles": "Pajero Dakar/ Mitsubishi L200 Triton Diesel 2006>", "compmodel": "", "voltage": "", "refrigerant": "R-134a", "outlet": "", "pulley": "", "fixation": "", "oiltype": "PAG 46", "connectors": "", "oem": "", "weightNet": "", "weightGross": "", "dims": "", "alignment": "", "rec": "", "notes": ""},
 {"images": ["assets/produtos/AEX-6610-01.png", "assets/produtos/AEX-6610-02.png", "assets/produtos/AEX-6610-03.png", "assets/produtos/AEX-6610-04.png", "assets/produtos/AEX-6610-05.png"], "image": "assets/produtos/AEX-6610-01.png", "id": "p80", "code": "AEX-6610", "name": "7SBH17C Fiat Ducato Motor 2.3 2019>", "line": "leve", "vehicles": "Fiat Ducato Motor 2.3 2019>", "compmodel": "", "voltage": "", "refrigerant": "R-134a", "outlet": "", "pulley": "", "fixation": "", "oiltype": "PAG 46", "connectors": "", "oem": "", "weightNet": "", "weightGross": "", "dims": "", "alignment": "", "rec": "", "notes": ""},
 {"images": ["assets/produtos/AEX-6611-01.png", "assets/produtos/AEX-6611-02.png", "assets/produtos/AEX-6611-03.png", "assets/produtos/AEX-6611-04.png", "assets/produtos/AEX-6611-05.png"], "image": "assets/produtos/AEX-6611-01.png", "id": "p81", "code": "AEX-6611", "name": "Mod Denso 10S17C Mercedes Benz Sprinter 2013> L Direito", "line": "pesada", "vehicles": "Mercedes Benz Sprinter 2013>", "compmodel": "", "voltage": "", "refrigerant": "R-134a", "outlet": "", "pulley": "", "fixation": "", "oiltype": "PAG 100", "connectors": "", "oem": "", "weightNet": "", "weightGross": "", "dims": "", "alignment": "", "rec": "", "notes": ""},
-{"images": ["assets/produtos/AEX-6612-01.png", "assets/produtos/AEX-6612-02.png", "assets/produtos/AEX-6612-03.png"], "image": "assets/produtos/AEX-6612-01.png", "id": "p82", "code": "AEX-6612", "name": "Mod Denso Mitsubishi L200 3.2L 2007>", "line": "leve", "vehicles": "Mitsubishi L200 3.2L 2007>", "compmodel": "", "voltage": "", "refrigerant": "R-134a", "outlet": "", "pulley": "", "fixation": "", "oiltype": "PAG 46", "connectors": "", "oem": "", "weightNet": "", "weightGross": "", "dims": "", "alignment": "", "rec": "", "notes": ""}];
+{"images": ["assets/produtos/AEX-6612-01.png", "assets/produtos/AEX-6612-02.png", "assets/produtos/AEX-6612-03.png"], "image": "assets/produtos/AEX-6612-01.png", "id": "p82", "code": "AEX-6612", "name": "Mod Denso Mitsubishi L200 3.2L 2007>", "line": "leve", "vehicles": "Mitsubishi L200 3.2L 2007>", "compmodel": "", "voltage": "", "refrigerant": "R-134a", "outlet": "", "pulley": "", "fixation": "", "oiltype": "PAG 46", "connectors": "", "oem": "", "weightNet": "", "weightGross": "", "dims": "", "alignment": "", "rec": "", "notes": ""},{"images":["assets/produtos/AEX-6613-01.png","assets/produtos/AEX-6613-02.png","assets/produtos/AEX-6613-03.png"],"image":"assets/produtos/AEX-6613-01.png","id":"p83","code":"AEX-6613","name":"Mod King Air 101-555211-7","line":"aerea","vehicles":"King Air B200, B200T, B200C, B200CT / Super King Air 350, 350C","compmodel":"","voltage":"","refrigerant":"R-134a","outlet":"","pulley":"","fixation":"","oiltype":"POE 68","connectors":"","oem":"101-555211-7","weightNet":"","weightGross":"","dims":"","alignment":"","rec":"","notes":""}];
 }
 // ── STATE ────────────────────────────────────────────────────────────────
 let products=getProducts(), activeFilter='todas', searchTerm='', editingId=null;
